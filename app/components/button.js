@@ -6,7 +6,8 @@ import React, { Component, PropTypes } from 'react'
 import {
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet
 } from 'react-native'
 
 const propTypes = {
@@ -15,15 +16,29 @@ const propTypes = {
   text: PropTypes.string,
   activeOpacity: PropTypes.number
 };
+const styles = StyleSheet.create({
+  button: {
+    // flex: 1,
+    backgroundColor: '#36c',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  button_text: {
+    color: '#fff',
+    fontSize: 20,
+  }
+})
 
 const Button = ({onPress, disabled, style, textStyle, text, activeOpacity}) => (
   <TouchableOpacity
-    style={style}
+    style={[styles.button, style]}
     onPress={onPress}
     disabled={disabled}
     activeOpacity={activeOpacity}
   >
-    <Text style={textStyle}>
+    <Text style={[styles.button_text, textStyle]}>
       {text}
     </Text>
   </TouchableOpacity>

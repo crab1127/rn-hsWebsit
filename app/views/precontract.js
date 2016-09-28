@@ -5,25 +5,65 @@ import {
   View,
   ScrollView,
   Image,
+  Modal,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Dimensions,
+  DeviceEventEmitter
 } from 'react-native'
 
 import NavigatorBar from '../components/navigatorBar'
 import Button from '../components/button'
+import TimePicker from '../components/timePicker'
+
+import Result from './result'
+
+const width = Dimensions.get('window').width
 
 class Precontract extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      isDateModal: false,
+      data: {
+        time: null,
+        name: null,
+        mobile: null,
+        place: null,
+        fend: null
+      }
+    }
     console.log('precontract', '~~~~~~~~~~~~start~~~~~~~~')
   }
+
+  componentDidMount() {
+    DeviceEventEmitter.addListener('timePicker', (time) => {
+      console.log('通知者 —> timePicker:', time)
+      this.setState({
+        isDateModal: false,
+        data: {
+          time: time
+        }
+      })
+    })
+  }
+
   render() {
+    const { navigator } = this.props
+    const { data } = this.state
     return (
       <View>
-        <NavigatorBar title='华胜豪华车专修连锁' />
+        <NavigatorBar navigator={navigator} title='华胜豪华车专修连锁' />
         <View style={[styles.input_group, {borderBottomWidth: 0}]}>
           <Text style={[styles.input_label, {width: 100}]}>您的预约时间</Text>
-          <View style={styles.input_control}></View>
+          <View style={styles.input_control}>
+            <Text 
+              style={{textAlign: 'right',}}
+              onPress={() => this.setState({isDateModal: true})}
+             >
+             { data.time || '请选择预约时间'}
+            </Text>
+          </View>
         </View>
         <View style={styles.space10}/>
         <View style={styles.input_group}>
@@ -79,9 +119,19 @@ class Precontract extends Component {
           <Button
             style={styles.button}
             textStyle={styles.buttonText}
+            onPress={() => {
+              this.props.navigator.push({
+                component: Result,
+                name: 'Result'
+              })
+            }}
             text="确认预约"
           />
         </View>
+
+        { 
+          this.state.isDateModal && <View style={{ position: 'absolute', top: 50}}><TimePicker/></View>
+        }
       </View>
     )
   }
@@ -127,6 +177,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff'
   }
+  
 })
 
 export default Precontract

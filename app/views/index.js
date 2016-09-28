@@ -12,6 +12,11 @@ import Swiper from 'react-native-swiper'
 import NavigatorBar from '../components/navigatorBar'
 
 import Serve from './serve'
+import List from './list'
+import SelectCart from './selectCart'
+import MdMap from './map'
+import Content from './content'
+import AskIM from './ask'
 
 class Index extends Component {
   constructor(props) {
@@ -27,14 +32,46 @@ class Index extends Component {
           component: Serve,
           name: 'Serve'
         })
-    }
+        break;
+      case 'list': 
+        navigator.push({
+          component: List,
+          name: 'List'
+        })
+        break;
+      case 'selectCart':
+        navigator.push({
+          component: SelectCart,
+          name: 'selectCart'
+        })
+        break;
+      case 'map':
+        navigator.push({
+          component: MdMap,
+          name: 'mdMap'
+        })
+        break
+      case 'content':
+        navigator.push({
+          component: Content,
+          name: 'Content'
+        })
+        break
+      case 'ask':
+        navigator.push({
+          component: AskIM,
+          name: 'AskIM'
+        })
+        break
+    } 
   }
 
   render() {
+    const { navigator } = this.props
     return(
       <View>
-        <NavigatorBar title='华胜豪华车专修'/>
-        <ScrollView style={{flex:1}}>
+        <NavigatorBar navigator={navigator} title='华胜豪华车专修'/>
+        <ScrollView>
           <Swiper height={200}>
             <View style={{ flex: 1, backgroundColor:'#ca237a'}}>
               <Text>这是汽车</Text>
@@ -50,6 +87,7 @@ class Index extends Component {
             <TouchableOpacity 
               style={styles.cart_bar_main}
               activeOpacity={.9}
+              onPress={() => this.nav('selectCart')}
             >
               <View style={{flex: 1}}>
                 <Text style={styles.cart_bar_text}> + 请选择您的车型</Text>
@@ -65,7 +103,10 @@ class Index extends Component {
                 保养查价格
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{flex:1}}>
+            <TouchableOpacity 
+              style={{flex:1}}
+              onPress={() => this.nav('ask')}
+            >
               <Text style={styles.tools_bar_text}>
                 维修问师傅
               </Text>
@@ -75,9 +116,12 @@ class Index extends Component {
           <View style={styles.list_wrap}>
             <View style={styles.list_title}>
               <Text>广州市（5家门店）</Text>
-              <Text>更多分店</Text>
+              <Text onPress={() => this.nav('list')}>更多分店</Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity 
+              activeOpacity={0.7}
+              onPress={() => this.nav('content')}
+            >
               <View style={styles.media}>
                 <Image style={{width:80, height:80}}/>
                 <View style={styles.media_main}>
@@ -94,13 +138,14 @@ class Index extends Component {
                         <Text>广州市天河区广州大道北99号</Text>
                       </View>
                     </View>
-                    <View style={styles.md_map}>
-                      <TouchableOpacity>
-                        <Text>
-                          导航
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                      style={styles.md_map}
+                      onPress={() => this.nav('map')}
+                    >
+                      <Text>
+                        导航
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>

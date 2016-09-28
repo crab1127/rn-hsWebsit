@@ -17,7 +17,7 @@ class Layout extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tabNames: ['首页', '预约', '电话'],
+      tabNames: ['首页', '预约', '电话', '我的'],
       tabIconNames: ['ios-paper', 'ios-albums', 'ios-paper-plane'],
     }
   }
@@ -33,8 +33,9 @@ class Layout extends Component {
         renderTabBar={() => <TabBar tabNames={tabNames} tabIconNames={tabIconNames} />}
       >
         <Index tabLabel='首页' navigator={navigator} route={route}/>
-        <Precontract tabLabel='预约' />
+        <Precontract tabLabel='预约' navigator={navigator} route={route} />
         <View><Text> 电话</Text></View>
+        <View><Text>我的个人中心</Text></View>
       </ScrollableTabView>
     )
   }
