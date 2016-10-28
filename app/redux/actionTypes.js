@@ -1,0 +1,9 @@
+export const SET_TITLE = 'SET_TITLE'
+
+export const SET_COORDINATES = 'SET_COORDINATES'
+
+export const SET_SLIDES = 'SET_SLIDES'
+
+export const SET_SERVICE = 'SET_SERVICE'
+
+export const SET_SERVICE_CONTENT = 'SET_SERVICE_CONTENT'

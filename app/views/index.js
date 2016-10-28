@@ -18,51 +18,66 @@ import MdMap from './map'
 import Content from './content'
 import AskIM from './ask'
 
+const CNODE_API = 'https://cnodejs.org/api/v1/topics'
+
 class Index extends Component {
+
   constructor(props) {
     super(props)
-    console.log(144, this.props)
+    
+    this.state = {
+      slides: [],
+    }
+    fetch('https://m.harsons.cn/api.php/Mobile/getBanner')
+
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({
+          slides: responseData.data
+        })
+        console.log(this.state)
+      })
   }
   
   nav(route) {
     const { navigator } = this.props
     switch (route) {
-      case 'serve': 
-        navigator.push({
-          component: Serve,
-          name: 'Serve'
-        })
-        break;
-      case 'list': 
-        navigator.push({
-          component: List,
-          name: 'List'
-        })
-        break;
-      case 'selectCart':
-        navigator.push({
-          component: SelectCart,
-          name: 'selectCart'
-        })
-        break;
-      case 'map':
-        navigator.push({
-          component: MdMap,
-          name: 'mdMap'
-        })
-        break
-      case 'content':
-        navigator.push({
-          component: Content,
-          name: 'Content'
-        })
-        break
-      case 'ask':
-        navigator.push({
-          component: AskIM,
-          name: 'AskIM'
-        })
-        break
+    case 'serve': 
+      navigator.push({
+        component: Serve,
+        name: 'Serve'
+      })
+      break
+    case 'list': 
+      navigator.push({
+        component: List,
+        name: 'List'
+      })
+      break
+    case 'selectCart':
+      navigator.push({
+        component: SelectCart,
+        name: 'selectCart'
+      })
+      break
+    case 'map':
+      navigator.push({
+        component: MdMap,
+        name: 'mdMap'
+      })
+      break
+    case 'content':
+      navigator.push({
+        component: Content,
+        name: 'Content'
+      })
+      break
+    case 'ask':
+      navigator.push({
+        component: AskIM,
+        name: 'AskIM'
+      })
+      break
     } 
   }
 
@@ -73,15 +88,7 @@ class Index extends Component {
         <NavigatorBar navigator={navigator} title='华胜豪华车专修'/>
         <ScrollView>
           <Swiper height={200}>
-            <View style={{ flex: 1, backgroundColor:'#ca237a'}}>
-              <Text>这是汽车</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor:'#ca237a'}}>
-              <Text>这还是汽车</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor:'#ca237a'}}>
-              <Text>这就是汽车</Text>
-            </View>
+          { this.state.slides.map(item => this.renderSlide(item)) }
           </Swiper>
           <View style={styles.cart_bar}>
             <TouchableOpacity 
@@ -149,17 +156,6 @@ class Index extends Component {
                   </View>
                 </View>
               </View>
-              <View style={styles.md_info}>
-                <View style={{flex: 1, alignItems: 'center'}}>
-                  <Text>预约免排队</Text>
-                </View>
-                <View style={{flex: 1, alignItems: 'center'}}>
-                  <Text>在线客服</Text>
-                </View>
-                <View style={{flex: 1, alignItems: 'center'}}>
-                  <Text>资讯热线</Text>
-                </View>
-              </View>
             </TouchableOpacity>
           </View>
           <View style={styles.spaceing} />
@@ -185,6 +181,19 @@ class Index extends Component {
       </View>
     )
   }
+
+  renderSlide(item) {
+    console.log(12, item)
+    return (
+      <View key={item.id} style={{ flex: 1, backgroundColor:'#fff'}}>
+        <Image 
+          source={{uri: 'https://m.harsons.cn' + item.img_path}}
+          style={{width: 375, height: 200}}
+        />
+      </View>
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -213,7 +222,7 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   spaceing: {
-    backgroundColor: "#ccc",
+    backgroundColor: '#ccc',
     height: 10
   },
 
